@@ -1,0 +1,26 @@
+.fra-components-tab {
+  display: flex;
+  box-sizing: border-box;
+  font-size: 64px;
+  line-height: 64px;
+  user-select: none;
+  li {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin-right: 10px;
+    padding: 0 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    &:nth-last-child(1):first-child {
+      cursor: default;
+    }
+    transition: background 0.3s ease-in-out;
+    &.active {
+      color: #fff;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

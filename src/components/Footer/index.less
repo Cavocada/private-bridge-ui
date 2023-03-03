@@ -1,0 +1,111 @@
+.footer {
+  position: absolute;
+  bottom: 137px;
+  .footer-container {
+    width: 1200px;
+    margin: 0 auto;
+    .policy {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      color: #fff;
+      font-size: 14px;
+      li {
+        a {
+          margin: 0 10px;
+          color: #fff;
+          text-decoration: none;
+          cursor: pointer;
+        }
+      }
+    }
+    .about {
+      display: flex;
+      align-items: center;
+      & svg {
+        height: auto;
+        margin-right: 30px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.footer-m {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  .footer-container {
+    .bottom {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      .about {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 142px;
+        padding: 30px 0 20px;
+      }
+      .policy {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        li {
+          color: rgb(255 255 255);
+          a {
+            margin: 0 5px;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .footer {
+    .footer-container {
+      width: 100%;
+      padding: 0 22px;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .footer {
+    display: none;
+    padding-top: 15px;
+    .footer-container {
+      padding: 0;
+      .bottom {
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        height: auto;
+      }
+      .policy {
+        justify-content: space-evenly;
+        width: 100%;
+        margin-bottom: 15px;
+        span {
+          display: none;
+        }
+        li {
+          a {
+            margin: 0;
+          }
+        }
+      }
+      .about {
+        justify-content: space-evenly;
+        width: 100%;
+        margin-bottom: 16px;
+        & svg {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}

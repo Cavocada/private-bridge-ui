@@ -1,0 +1,101 @@
+.section-switch-network {
+  box-sizing: border-box;
+  width: 100%;
+  background: #162334;
+  border-radius: 6px;
+  .circle-name-current {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 94px;
+    margin-bottom: 26px;
+    color: rgb(255 255 255 / 85%);
+    font-size: 16px;
+    background: rgb(255 255 255 / 5%);
+    border-radius: 5px 5px 0 0;
+    .circle {
+      width: 8px;
+      height: 8px;
+      margin-right: 11px;
+      background: #1fc7d4;
+      border-radius: 50%;
+    }
+  }
+  .is-switch {
+    width: 370px;
+    margin: 33px auto 23px;
+    padding: 0 10px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 32px;
+    text-align: center;
+  }
+  .selected-network {
+    width: 350px;
+    margin: 0 auto 19px;
+    padding: 0 10px;
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+    opacity: 60%;
+  }
+  .fra-components-select {
+    width: 246px;
+    margin: 0 auto;
+    .select-label {
+      height: 40px;
+      color: rgb(255 255 255 / 85%);
+      background: rgb(255 255 255 / 5%);
+      border-radius: 5px;
+    }
+  }
+  .switch-pending {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 34px;
+    margin-top: 50px;
+    padding-left: 21px;
+    color: #f7b73d;
+    font-size: 12px;
+    text-align: center;
+    background: rgb(227 171 62 / 10%);
+    border-right: 0;
+  }
+  .btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 112px;
+    padding: 0 32px;
+    color: #7a6eaa;
+    font-size: 15px;
+    .cancel {
+      box-sizing: border-box;
+      width: 157px;
+      height: 48px;
+      color: #fff;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 47px;
+      text-align: center;
+      border: 1px solid #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .fra-components-button {
+      width: 152px;
+      height: 46px;
+      font-size: 14px;
+      border-radius: 6px;
+    }
+  }
+}
+@media screen and (max-width: 700px) {
+  .section-switch-network {
+    .btn-group {
+      padding: 0 15px;
+    }
+  }
+}

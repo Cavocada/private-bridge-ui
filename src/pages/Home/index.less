@@ -1,0 +1,111 @@
+.home-page {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgb(10 23 41 / 0%) 0%, #1497f1 100%);
+  .page-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 1200px;
+    height: calc(100vh);
+    min-height: 959px;
+    padding: 0 22px;
+    .home-info {
+      position: absolute;
+      top: 200px;
+      z-index: 9;
+      width: 100%;
+      .title {
+        width: 100%;
+        max-width: 687px;
+        font-weight: bold;
+        font-size: 64px;
+        font-size: 56px;
+        line-height: 68px;
+      }
+      .sub-title {
+        font-size: 24px;
+      }
+      .home-connect-btn {
+        box-sizing: border-box;
+        width: 260px;
+        height: 60px;
+        margin-top: 49px;
+        font-weight: 600;
+        background: #0856cb;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .home-help-btn {
+        display: none;
+        box-sizing: border-box;
+        width: 246px;
+        height: 40px;
+        background: #0856cb;
+        box-shadow: 0 6px 10px rgb(0 0 0 / 7.5%);
+        cursor: pointer;
+      }
+    }
+    .icon-home-wallet {
+      position: absolute;
+      bottom: 0;
+      left: 160px;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .home-page {
+    box-sizing: border-box;
+    padding: 0 15px;
+    background-repeat: no-repeat;
+    .page-container {
+      flex-direction: column-reverse;
+      align-items: center;
+      width: 100%;
+      min-height: 959px;
+      padding: 56px 0;
+      .home-info {
+        top: 492px;
+        padding-top: 0;
+        .title {
+          font-weight: bold;
+          font-size: 32px;
+          text-align: center;
+        }
+        .sub-title {
+          font-size: 14px;
+          text-align: center;
+        }
+        .home-connect-btn {
+          box-sizing: border-box;
+          width: 100%;
+          max-width: 356px;
+          height: 58px;
+          margin: 0 auto;
+          background: #0856cb;
+          box-shadow: 0 6px 10px rgb(0 0 0 / 7.5%);
+          cursor: pointer;
+        }
+        .home-help-btn {
+          display: none;
+          width: 246px !important;
+          margin: 0 auto;
+          margin-top: 18px;
+          line-height: 40px;
+          border-radius: 12px;
+          .help-item {
+            justify-content: center;
+          }
+        }
+      }
+      .icon-home-wallet {
+        top: 0;
+        left: -15px;
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.fra-components-list {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 14px 0;
+  overflow: hidden;
+  background: #151524;
+  border: 1px solid #3e334b;
+  border-radius: 12px;
+  .list-item {
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border-bottom: 1px solid #151500;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    &:last-child {
+      border-bottom: none;
+    }
+    &:hover {
+      background: #0a0b16;
+    }
+  }
+  .select-item {
+    display: flex;
+    align-items: center;
+  }
+  &.light {
+    color: #0a0b16;
+    background: #fff;
+    border: 1px solid #ddd7eb;
+    .list-item {
+      &:hover {
+        background: #eee;
+      }
+    }
+  }
+}

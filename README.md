@@ -1,4 +1,4 @@
-Findora ChainBridge - Instructions for Developers
+Private Bridge - Instructions for Developers
 
 ## Technology
 
@@ -38,43 +38,5 @@ $ yarn build
 ```
 
 > The constructed resources are located in **"root directory/dist"**
-
-### Problem record:
-
-### Resource
-
-#### ui
-
-https://www.figma.com/file/4cIJBusTmulSCViwh8Cbrq/chainbridge---findora?node-id=211%3A6605
-
-#### solidity
-
-https://github.com/FindoraNetwork/chainbridge-deploy
-
-#### wallet_addEthereumChain
-
-https://eips.ethereum.org/EIPS/eip-3085
-
-#### to do the deployment
-
-> repo:
-
-https://github.com/FindoraNetwork/chainBridge-new
-
-to deploy on developing env:
-
-push commit into the main branch
-
-to deploy on production env:
-
-release a tag like below
-
-https://github.com/FindoraNetwork/chainBridge-new/releases/tag/0.0.1
-
-done, CICD is finished.
-
-dev.bridge.findora.org ---> developing env
-
-bridge.findora.org ---> production env
 
 <!--  -->

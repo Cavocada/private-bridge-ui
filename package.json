@@ -120,7 +120,6 @@
     "css-minimizer-webpack-plugin": "^3.1.1",
     "enquire-js": "^0.2.1",
     "ethers": "^5.5.1",
-    "findora-wallet-wasm": "./external_resources/findora-wallet-wasm",
     "https-browserify": "^1.0.0",
     "i18next": "^21.3.3",
     "immer": "^9.0.6",

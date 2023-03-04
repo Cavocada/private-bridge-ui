@@ -34,65 +34,11 @@ const Headerpage = () => {
 
   const pcNav = [
     {
-      label: (
-        <a href="https://github.com/Cavocada/chainbridge-tools/wiki/About-Rialto-Bridge" target={'_blank'}>
-          About
-        </a>
-      ),
-      key: 'about',
-    },
-    {
-      label: (
-        <a href="https://github.com/Cavocada/chainbridge-tools/wiki/FAQ" target={'_blank'}>
-          FAQs
-        </a>
-      ),
-      key: 'faqs',
-    },
-    {
-      label: (
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSetTdfEU8TJ34cMnbv7SZyUXnZ0a2E2TI-nU2q_jLN0wZGRQw/viewform?usp=send_form"
-          target={'_blank'}
-        >
-          Listing Request
-        </a>
-      ),
-      key: 'request',
-    },
-    {
       label: <ConnectWallet style={{ marginLeft: '20px' }} />,
       key: 'wallet',
     },
   ];
   const MNav = [
-    {
-      label: (
-        <a href="https://github.com/Cavocada/chainbridge-tools/wiki/About-Rialto-Bridge" target={'_blank'}>
-          About
-        </a>
-      ),
-      key: 'about',
-    },
-    {
-      label: (
-        <a href="https://github.com/Cavocada/chainbridge-tools/wiki/FAQ" target={'_blank'}>
-          FAQs
-        </a>
-      ),
-      key: 'faqs',
-    },
-    {
-      label: (
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSetTdfEU8TJ34cMnbv7SZyUXnZ0a2E2TI-nU2q_jLN0wZGRQw/viewform?usp=send_form"
-          target={'_blank'}
-        >
-          Listing Request
-        </a>
-      ),
-      key: 'request',
-    },
     {
       label: <FooterM />,
       key: 'footer',
@@ -106,11 +52,6 @@ const Headerpage = () => {
   return (
     <>
       <Header className="header">
-        <Logo>
-          <Link to={pageURL.home} style={{ display: 'contents' }} className="logo">
-            {isMobile ? <LogoMSvg /> : <LogoSvg />}
-          </Link>
-        </Logo>
 
         {isMobile ? (
           <Space align="center" size={20}>

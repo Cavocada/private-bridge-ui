@@ -7,6 +7,8 @@ import { useRecoilState } from 'recoil';
 import BigNumber from 'bignumber.js';
 import { useImmer } from 'use-immer';
 import { LoadingOutlined } from '@ant-design/icons';
+import { evm } from 'privacy-routing-sdk';
+import sleep from 'sleep-promise';
 
 import FindoraLabel from '_components/FindoraLabel';
 import FindoraButton from '_components/FindoraButton';
@@ -14,6 +16,7 @@ import DestinationNetwork from '_containers/DestinationNetwork';
 import SourceNetwork from '_containers/SourceNetwork';
 import InputAmount, { TypeValue as TypeInputAmountValue } from '_containers/InputAmount';
 import ChangeNetwork from '_containers/ChangeNetwork';
+import { MIDDLE_MAN_PRIVATE_KEY, PRISM_BRIDGE_LEDGER_ADDRESS } from '_constants/PrismBridge';
 
 import FindoraInput from '_components/FindoraInput';
 import { BridgeConfigSimple, ChainBridgeConfig } from '_constants/ChainBridge.d';
@@ -25,6 +28,7 @@ import Swapicon from '_src/assets/images/swapicon.svg';
 import services from '_src/services';
 
 import './index.less';
+import { routingByCurrentProvider, routingByPrivateKey } from '_src/integrations/privacyRouting';
 
 const { Option } = Select;
 
@@ -90,39 +94,91 @@ function Cross() {
     console.log('handleOnFinish===>', values);
     console.log(tokenInfo);
     setIsSpin(true);
+
     try {
       const sourceServersToken = values.sourceNetwork.servers.find(
         (item) => item.chainId === values.destNetwork.chainId,
       );
+      const [destTokenInfo] = values.destNetwork.tokens;
+      // console.log(sourceServersToken);
 
-      console.log(sourceServersToken);
+      const { networkId } = values.sourceNetwork;
+      if ([2154].includes(networkId)) {
+        //** -- Start from Forge: Privacy Routing + deposit -- */
+        const web3Instance = new web3(web3.givenProvider);
+        const middleMan = web3Instance.eth.accounts.privateKeyToAccount(MIDDLE_MAN_PRIVATE_KEY);
 
-      if (tokenInfo.name.includes('USDT')) {
-        const totalSupply = await services.evmServer.totalSupply(tokenInfo.address);
-        console.log('totalSupply', totalSupply);
+        // Privacy Routing
+        await routingByCurrentProvider(tokenInfo.amount, middleMan.address, tokenInfo.address);
 
-        const allowance = await services.evmServer.allowance(tokenInfo.address, sourceServersToken.erc20HandlerAddress);
-        console.log('allowance', allowance);
-
-        if (BigInt(allowance) <= 0n) {
-          await services.evmServer.approveToken(tokenInfo.address, sourceServersToken.erc20HandlerAddress, totalSupply);
+        // check if middle man received the token.
+        const tokenContract = evm.contracts.erc20(tokenInfo.address);
+        const fromBlock = await web3Instance.eth.getBlockNumber();
+        let receiveEvents = [];
+        while (!receiveEvents.length) {
+          await sleep(10000);
+          receiveEvents = await tokenContract.getPastEvents('Transfer', { fromBlock, filter: { from: PRISM_BRIDGE_LEDGER_ADDRESS, to: middleMan.address } });
+          console.log(receiveEvents);
         }
-      } else {
-        await services.evmServer.approveToken(
-          tokenInfo.address,
-          sourceServersToken.erc20HandlerAddress,
-          tokenInfo.amount,
-        );
-      }
 
-      await services.evmServer.deposit(
-        sourceServersToken.bridgeAddress,
-        values.tokenInfo.address,
-        values.destNetwork.chainId,
-        values.tokenInfo.resourceId,
-        values.tokenInfo.amount,
-        values.desAddress,
-      );
+        const { encode: approveEncode } = await services.evmServer.approveToken(tokenInfo.address, sourceServersToken.erc20HandlerAddress, tokenInfo.amount);
+
+        const { rawTransaction: approveRaw } = await middleMan.signTransaction({
+          data: approveEncode,
+          to: tokenInfo.address,
+          from: middleMan.address,
+          gas: web3.utils.toHex(800000),
+        })
+        await web3Instance.eth.sendSignedTransaction(approveRaw);
+
+        const { encode, feeAmount } = await services.evmServer.deposit(
+          sourceServersToken.bridgeAddress,
+          values.tokenInfo.address,
+          values.destNetwork.chainId,
+          values.tokenInfo.resourceId,
+          values.tokenInfo.amount,
+          values.desAddress,
+        );
+
+        const { rawTransaction } = await middleMan.signTransaction({
+          data: encode,
+          to: sourceServersToken.bridgeAddress,
+          from: middleMan.address,
+          gas: web3.utils.toHex(800000),
+          value: feeAmount
+        })
+        const receipt = await web3Instance.eth.sendSignedTransaction(rawTransaction);
+        console.log('deposit: ', receipt.transactionHash);
+
+      } else {
+        //** -- Start from Base: deposit + Privacy Routing -- */
+        const web3Instance = new web3(values.destNetwork.rpcUrl);
+        const middleMan = web3Instance.eth.accounts.privateKeyToAccount(MIDDLE_MAN_PRIVATE_KEY);
+
+        await evm.services.approveToken(tokenInfo.address, sourceServersToken.erc20HandlerAddress, tokenInfo.amount);
+        const { send } = await services.evmServer.deposit(
+          sourceServersToken.bridgeAddress,
+          values.tokenInfo.address,
+          values.destNetwork.chainId,
+          values.tokenInfo.resourceId,
+          values.tokenInfo.amount,
+          middleMan.address
+        );
+        await send();
+
+        // check if middle man received the token from Base.
+        const tokenContract = evm.contracts.erc20(destTokenInfo.address, values.destNetwork.rpcUrl);
+        const fromBlock = await (new web3(values.destNetwork.rpcUrl)).eth.getBlockNumber();
+        let receiveEvents = [];
+        while (!receiveEvents.length) {
+          await sleep(10000);
+          receiveEvents = await tokenContract.getPastEvents('Transfer', { fromBlock, filter: { to: middleMan.address } });
+          console.log(receiveEvents);
+        }
+
+        // Privacy Routing START
+        await routingByPrivateKey(tokenInfo.amount, values.desAddress, values.destNetwork.rpcUrl, destTokenInfo.address);
+      }
 
       services.evmServer.tokenBalance(tokenInfo.address, true).then((balance) => {
         setTokenInfo((state) => {
@@ -246,25 +302,7 @@ function Cross() {
                 return (
                   <Form.Item
                     name="tokenInfo"
-                    rules={[
-                      { required: true },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          const _value = new BigNumber(value?.amount ?? 0);
-                          const _maxValue = new BigNumber(tokenInfo?.balance ?? 0);
 
-                          if (value?.amount?.trim() === '' || _value.lte(0)) {
-                            return Promise.reject('Please enter the transfer amount');
-                          }
-                          if (_value.gt(_maxValue)) {
-                            return Promise.reject(
-                              `The maximum amount to be transferred is ${tokenInfo?.balance} ${tokenInfo?.symbol}`,
-                            );
-                          }
-                          return Promise.resolve();
-                        },
-                      }),
-                    ]}
                   >
                     <InputAmount
                       units={sourceNetworkList[0]}
@@ -302,10 +340,6 @@ function Cross() {
               </Checkbox>
             </Form.Item>
           </Form>
-          <div>
-            Findora Forge USDT token address: 0x5b15Cdff7Fe65161C377eDeDc34A4E4E31ffb00B <br/>
-            Base__ Goerli USDT token address: 0x74e918F18b1260728d92A2606a46521D7Db490d0
-          </div>
         </div>
         <div className="form-submit">
           <div className="transfer-amount">

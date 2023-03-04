@@ -33,7 +33,10 @@ const EvmServer = {
       gasPrice = web3.utils.toWei('0.0000003', 'ether');
     }
     const amount = await EvmServer.calculationDecimalsAmount(contract, price, 'toWei');
-    return await contract.methods.approve(erc20HandlerAddress, amount).send({ ...options, gasPrice: gasPrice });
+    return {
+      send: () => contract.methods.approve(erc20HandlerAddress, amount).send({ ...options, gasPrice: gasPrice }),
+      encode: contract.methods.approve(erc20HandlerAddress, amount).encodeABI()
+    };
   },
 
   async totalSupply(contractAddress: string): Promise<string> {
@@ -72,9 +75,16 @@ const EvmServer = {
       gasPrice = web3.utils.toWei('0.0000003', 'ether');
     }
 
-    await contract.methods
-      .deposit(destinationChainId, tokenResourceId, data)
-      .send({ ...options, value: feeAmount, gasPrice: gasPrice });
+    return {
+      send: () => contract.methods
+        .deposit(destinationChainId, tokenResourceId, data)
+        .send({ ...options, value: feeAmount, gasPrice: gasPrice }),
+      encode: contract.methods
+        .deposit(destinationChainId, tokenResourceId, data)
+        .encodeABI(),
+      gasPrice,
+      feeAmount,
+    }
   },
   async switchNetwork(value: BridgeConfigSimple) {
     try {

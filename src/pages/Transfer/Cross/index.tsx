@@ -302,6 +302,10 @@ function Cross() {
               </Checkbox>
             </Form.Item>
           </Form>
+          <div>
+            Findora Forge USDT token address: 0x5b15Cdff7Fe65161C377eDeDc34A4E4E31ffb00B <br/>
+            Base__ Goerli USDT token address: 0x74e918F18b1260728d92A2606a46521D7Db490d0
+          </div>
         </div>
         <div className="form-submit">
           <div className="transfer-amount">

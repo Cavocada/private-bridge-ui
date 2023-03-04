@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ConnectWallet from '_containers/ConnectWallet';
-import LogoSvg from '_src/assets/images/logo.svg';
-import LogoMSvg from '_src/assets/images/logo_m.svg';
+import LogoMain from '_assets/images/logo.png';
 import MenuUnfoldOutlined from '_src/assets/images/menu.svg';
 import MenuFoldOutlined from '_src/assets/images/menu_fold.svg';
 import pageURL from '_constants/pageURL';
-import { Button, Dropdown, Layout, Menu, Space } from 'antd';
+import {Button, Dropdown, Image, Layout, Menu, Space} from 'antd';
 import { enquireScreen } from 'enquire-js';
-import styled from 'styled-components';
 const { Header } = Layout;
 import { FooterM } from '_components/Footer';
 import './index.less';
 
-const Logo = styled.div`
-  width: 200px;
-  height: 30.7px;
-  @media screen and (max-width: 768px) {
-    width: 44px;
-    height: 44px;
-  }
-`;
 
 const Headerpage = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -52,7 +42,7 @@ const Headerpage = () => {
   return (
     <>
       <Header className="header">
-
+        <Image src={LogoMain}/>
         {isMobile ? (
           <Space align="center" size={20}>
             <ConnectWallet />

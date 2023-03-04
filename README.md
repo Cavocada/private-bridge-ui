@@ -2,7 +2,7 @@ Private Bridge - Instructions for Developers
 
 ## Technology
 
-react、react-router、mobx、webpack5、less、Antd、Web3
+[privacy-routing-sdk](https://docs.findora.org/developers/developer-sdks/privacy-routing-sdk), react, react-router, Web3
 
 ## Project beginning:
 
@@ -31,7 +31,7 @@ $ yarn dev
 
 ### Build:
 
-Execute the following commands in the project update directory to build resources for execution in the production environment.
+Execute the following command in the project directory to build resources for execution in the production environment.
 
 ```bash
 $ yarn build

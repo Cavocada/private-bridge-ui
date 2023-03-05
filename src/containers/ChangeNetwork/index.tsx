@@ -24,7 +24,7 @@ const ChangeNetwork: React.FC<IChangeNetwork> = () => {
           setIsModalVisible(true);
         }}
       >
-        Swap Networks
+        change
       </div>
       <Modal
         visible={isModalVisible}

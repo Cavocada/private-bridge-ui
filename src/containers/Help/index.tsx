@@ -31,10 +31,10 @@ const Help: React.FC<IHelp> = ({ className }) => {
         onClose={() => setVisible(false)}
         visible={visible}
       >
-        <div className="help-drawer-box">
-          <h3>What is Rialto Bridge?</h3>
+        {/* <div className="help-drawer-box">
+          <h3>What is Privacy Bridge?</h3>
           <p>
-            Rialto Bridge is a modular multi-directional blockchain bridge to allow data and value transfer between any
+            Privacy Bridge is a modular multi-directional blockchain bridge to allow data and value transfer between any
             number of blockchains. This should enable users to specify a destination blockchain from their source chain
             and send data to that blockchain for consumption on the destination chain.
           </p>
@@ -45,7 +45,7 @@ const Help: React.FC<IHelp> = ({ className }) => {
           <FindoraButton className="btn-close" onClick={() => setVisible(false)}>
             Close
           </FindoraButton>
-        </div>
+        </div> */}
       </Drawer>
     </section>
   );

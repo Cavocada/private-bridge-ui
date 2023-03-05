@@ -1,21 +1,21 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import pageURL from '_constants/pageURL';
-import Home from '_src/pages/Home';
+import Transfer from '_src/pages/Transfer';
 
 const routeMap = [
   {
     path: pageURL.home,
-    component: Home,
+    component: Transfer,
     exact: true,
     dynamic: false,
   },
-  {
-    path: pageURL.transfer,
-    component: lazy(() => import(/* webpackChunkName: 'transfer' */ './pages/Transfer')),
-    exact: true,
-    dynamic: true,
-  },
+  // {
+  //   path: pageURL.transfer,
+  //   component: lazy(() => import(/* webpackChunkName: 'transfer' */ './pages/Transfer')),
+  //   exact: true,
+  //   dynamic: true,
+  // },
   {
     path: '*',
     component: () => <div>404</div>,

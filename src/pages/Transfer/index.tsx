@@ -22,6 +22,7 @@ function Transfer() {
 
       <div className="transfer-container">{tab === tabList[0] ? <Cross /> : <Wrap />}</div>
 
+      <div className="version">Version {process.env.VERSION_APP}</div>
     </div>
   );
 }

@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ConnectWallet from '_containers/ConnectWallet';
-import LogoMain from '_assets/images/logo.png';
+import LogoSvg from '_src/assets/images/logo.svg';
 import MenuUnfoldOutlined from '_src/assets/images/menu.svg';
 import MenuFoldOutlined from '_src/assets/images/menu_fold.svg';
 import pageURL from '_constants/pageURL';
-import {Button, Dropdown, Image, Layout, Menu, Space} from 'antd';
+import { Button, Dropdown, Layout, Menu, Space } from 'antd';
 import { enquireScreen } from 'enquire-js';
+import styled from 'styled-components';
 const { Header } = Layout;
 import { FooterM } from '_components/Footer';
 import './index.less';
 
+const Logo = styled.div`
+  width: 200px;
+  height: 30.7px;
+  @media screen and (max-width: 768px) {
+    width: 44px;
+    height: 44px;
+  }
+`;
 
 const Headerpage = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -23,16 +32,70 @@ const Headerpage = () => {
   }, []);
 
   const pcNav = [
+    // {
+    //   label: (
+    //     <a href="https://github.com/Cavocada/chainbridge-tools/wiki/About-Rialto-Bridge" target={'_blank'}>
+    //       About
+    //     </a>
+    //   ),
+    //   key: 'about',
+    // },
+    // {
+    //   label: (
+    //     <a href="https://github.com/Cavocada/chainbridge-tools/wiki/FAQ" target={'_blank'}>
+    //       FAQs
+    //     </a>
+    //   ),
+    //   key: 'faqs',
+    // },
+    // {
+    //   label: (
+    //     <a
+    //       href="https://docs.google.com/forms/d/e/1FAIpQLSetTdfEU8TJ34cMnbv7SZyUXnZ0a2E2TI-nU2q_jLN0wZGRQw/viewform?usp=send_form"
+    //       target={'_blank'}
+    //     >
+    //       Listing Request
+    //     </a>
+    //   ),
+    //   key: 'request',
+    // },
     {
       label: <ConnectWallet style={{ marginLeft: '20px' }} />,
       key: 'wallet',
     },
   ];
   const MNav = [
-    {
-      label: <FooterM />,
-      key: 'footer',
-    },
+    // {
+    //   label: (
+    //     <a href="https://github.com/Cavocada/chainbridge-tools/wiki/About-Rialto-Bridge" target={'_blank'}>
+    //       About
+    //     </a>
+    //   ),
+    //   key: 'about',
+    // },
+    // {
+    //   label: (
+    //     <a href="https://github.com/Cavocada/chainbridge-tools/wiki/FAQ" target={'_blank'}>
+    //       FAQs
+    //     </a>
+    //   ),
+    //   key: 'faqs',
+    // },
+    // {
+    //   label: (
+    //     <a
+    //       href="https://docs.google.com/forms/d/e/1FAIpQLSetTdfEU8TJ34cMnbv7SZyUXnZ0a2E2TI-nU2q_jLN0wZGRQw/viewform?usp=send_form"
+    //       target={'_blank'}
+    //     >
+    //       Listing Request
+    //     </a>
+    //   ),
+    //   key: 'request',
+    // },
+    // {
+    //   label: <FooterM />,
+    //   key: 'footer',
+    // },
   ];
 
   const onClick = (e) => {
@@ -42,7 +105,12 @@ const Headerpage = () => {
   return (
     <>
       <Header className="header">
-        <Image src={LogoMain}/>
+        <Logo>
+          <Link to={pageURL.home} style={{ display: 'contents' }} className="logo">
+            <LogoSvg width={45} height={45} />
+          </Link>
+        </Logo>
+
         {isMobile ? (
           <Space align="center" size={20}>
             <ConnectWallet />

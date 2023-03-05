@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Web3ReactProvider } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import Routes from '_src/routes';
+import { Sdk } from 'privacy-routing-sdk'
 
 import i18n from '_utils/i18n';
 import { WebLayout } from '_src/Layout';
@@ -21,6 +22,10 @@ function getLibrary(provider) {
   library.pollingInterval = 5000;
   return library;
 }
+
+Sdk.init({
+  hostUrl: 'https://prod-forge.prod.findora.org'
+});
 
 const Root = () => {
   return (
